@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VacPack | Defy Baggage Fees</title>
+    <!-- Using a premium geometric font to match the sleek vibe -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #050505;
+            --bg-panel: #121212;
+            --border: #262626;
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --accent-red: #e60000;
+            --accent-hover: #ff1a1a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        /* Typography */
+        h1 { font-size: clamp(2.5rem, 5vw, 4.5rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; }
+        h2 { font-size: clamp(2rem, 4vw, 3rem); font-weight: 800; letter-spacing: -0.02em; }
+        h3 { font-size: 1.25rem; font-weight: 600; }
+        p { font-size: 1.1rem; color: var(--text-muted); }
+
+        /* Navbar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background: rgba(5, 5, 5, 0.8);
+            backdrop-filter: blur(12px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo { font-size: 1.25rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase; }
+        .logo span { color: var(--accent-red); }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            background: var(--accent-red);
+            color: #fff;
+            padding: 0.8rem 2rem;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: all 0.2s ease;
+            border: 1px solid var(--accent-red);
+        }
+        .btn:hover {
+            background: var(--accent-hover);
+            border-color: var(--accent-hover);
+            box-shadow: 0 0 20px rgba(230, 0, 0, 0.3);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--text-main);
+            color: var(--text-main);
+        }
+        .btn-outline:hover {
+            background: var(--text-main);
+            color: var(--bg-dark);
+            box-shadow: none;
+        }
+
+        /* Layout & Sections */
+        section { padding: 8rem 5%; }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            padding-top: 6rem;
+        }
+        .hero-content { max-width: 600px; }
+        .hero-content p { margin: 1.5rem 0 2.5rem; color: #b3b3b3; }
+        
+        .video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-bottom: 150%; /* Vertical orientation for TikTok/Shorts style */
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            overflow: hidden;
+        }
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* The Math (Problem Section) */
+        .problem-section {
+            background: var(--bg-panel);
+            text-align: center;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        .problem-section h2 { margin-bottom: 1.5rem; }
+        .problem-section p { max-width: 700px; margin: 0 auto; }
+
+        /* Product Showcase (High Contrast White Section) */
+        .showcase {
+            background: #ffffff;
+            color: #050505;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .showcase p { color: #444444; margin-top: 1rem; margin-bottom: 2rem; }
+        .showcase-img {
+            width: 100%;
+            height: auto;
+            border: 1px solid #e5e5e5;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+        }
+
+        /* Specs Section */
+        .specs { text-align: center; }
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+        .spec-card {
+            padding: 3rem 2rem;
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            text-align: left;
+        }
+        .spec-card h3 { margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+        .spec-card h3::before {
+            content: '+';
+            color: var(--accent-red);
+            font-weight: 400;
+        }
+
+        /* Reviews */
+        .reviews {
+            background: var(--bg-panel);
+            border-top: 1px solid var(--border);
+        }
+        .review-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+        .review-card {
+            padding: 2rem;
+            border-left: 2px solid var(--accent-red);
+            background: var(--bg-dark);
+        }
+        .review-card p { margin-bottom: 1rem; font-style: italic; color: #d4d4d4; }
+        .reviewer { font-size: 0.9rem; font-weight: 600; color: var(--text-main); text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Footer */
+        footer {
+            padding: 3rem 5%;
+            text-align: center;
+            border-top: 1px solid var(--border);
+        }
+        footer p { font-size: 0.9rem; }
+
+        /* Scroll Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile */
+        @media (max-width: 900px) {
+            .hero, .showcase { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
+            .hero { padding-top: 8rem; min-height: auto; }
+            .hero-content { margin: 0 auto; }
+            .video-wrapper { max-width: 400px; margin: 0 auto; }
+            .spec-card { text-align: center; }
+            .spec-card h3 { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">Vac<span>Pack</span></div>
+        <a href="#shop" class="btn">Get the bag</a>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content fade-in">
+            <h1>Beat the system.</h1>
+            <p>Airlines are charging up to $60 for a carry-on. We engineered a bag with a built-in vacuum seal that compresses a week of clothes into a personal-item footprint. Fly under the radar.</p>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <a href="#shop" class="btn">Shop VacPack</a>
+                <a href="#specs" class="btn btn-outline">See the tech</a>
+            </div>
+        </div>
+        <div class="video-wrapper fade-in">
+            <!-- Your provided YouTube link embedded here -->
+            <iframe src="https://www.youtube.com/embed/Z9aycjIkArw?autoplay=1&mute=1&loop=1&playlist=Z9aycjIkArw&controls=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+        </div>
+    </section>
+
+    <section class="problem-section">
+        <div class="fade-in">
+            <h2>It's a math problem.</h2>
+            <p>You want to travel. They want to charge you for the privilege of bringing a jacket. Stop paying for space you don't need. The VacPack removes 60% of the air from your clothing, multiplying your storage without adding bulk.</p>
+        </div>
+    </section>
+
+    <section class="showcase">
+        <div class="fade-in">
+            <!-- Real image sourced from the internet -->
+            <img src="https://www.simplifyliving.uk/cdn/shop/files/66-1.jpg?v=1743416913&width=1200" alt="VacPack internal vacuum chamber" class="showcase-img">
+        </div>
+        <div class="fade-in">
+            <h2 style="color: #050505;">Pneumatic compression.</h2>
+            <p>Load the internal airtight chamber, seal the heavy-duty zipper, and attach the portable pump (or a standard vacuum). Watch a massive pile of fabric shrink into a dense, flat layer in seconds.</p>
+            <a href="#shop" class="btn">View interior specs</a>
+        </div>
+    </section>
+
+    <section id="specs" class="specs">
+        <h2 class="fade-in">Built for transit.</h2>
+        <div class="specs-grid">
+            <div class="spec-card fade-in">
+                <h3>Airlines Compliant</h3>
+                <p>Designed to strict 18 x 14 x 8 inch dimensions. It fits perfectly under the seat in front of you, legally qualifying as a "personal item" on budget airlines.</p>
+            </div>
+            <div class="spec-card fade-in">
+                <h3>Airtight Core</h3>
+                <p>The interior compartment features a medical-grade TPU lining and a one-way air valve. Once the air is out, it stays out until you release the seal.</p>
+            </div>
+            <div class="spec-card fade-in">
+                <h3>Weatherproof Shell</h3>
+                <p>Wrapped in an ultra-durable, matte-black ballistic nylon. Water rolls right off. Your electronics stay safe in the padded, non-compressed laptop sleeve.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="reviews">
+        <h2 class="fade-in" style="text-align: center; margin-bottom: 1rem;">Don't just take our word for it.</h2>
+        <div class="review-grid">
+            <div class="review-card fade-in">
+                <p>"Literally paid for itself on my first Ryanair flight. Fits perfectly under the seat and holds way more than it looks like it should."</p>
+                <div class="reviewer">Sarah T.</div>
+            </div>
+            <div class="review-card fade-in">
+                <p>"No gimmicks, the vacuum seal actually holds. I packed 5 days of winter clothes into a daypack. Best travel purchase of the year."</p>
+                <div class="reviewer">Marcus J.</div>
+            </div>
+            <div class="review-card fade-in">
+                <p>"Sleek, black, and minimalist. It doesn't look like an ugly travel bag, it just looks like high-end techwear. Highly recommend."</p>
+                <div class="reviewer">David L.</div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 VacPack. Defy gravity. Carry everything.</p>
+    </footer>
+
+    <!-- Intersection Observer for sleek fade-in scroll animations -->
+    <script>
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.15
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    observer.unobserve(entry.target); // Only animate once
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(element => {
+            observer.observe(element);
+        });
+    </script>
+</body>
+</html>

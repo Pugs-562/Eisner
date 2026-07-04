@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VacPack | The Viral Compression Backpack</title>
+    <style>
+        /* CSS Reset & Variables */
+        :root {
+            --primary: #0ea5e9; /* Refreshing Sky Blue */
+            --primary-hover: #0284c7;
+            --accent: #f43f5e; /* TikTok-ish Pink Accent */
+            --bg-light: #f0f9ff;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        /* Typography */
+        h1, h2, h3 { font-weight: 800; letter-spacing: -0.02em; }
+        
+        /* Navbar */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+
+        .logo { font-size: 1.5rem; font-weight: 900; color: var(--primary); }
+        .logo span { color: var(--text-dark); }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: var(--white);
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 14px 0 rgba(14, 165, 233, 0.39);
+        }
+        .btn:hover {
+            background: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(14, 165, 233, 0.5);
+        }
+        .btn-accent { background: var(--accent); box-shadow: 0 4px 14px 0 rgba(244, 63, 94, 0.39); }
+        .btn-accent:hover { background: #e11d48; box-shadow: 0 6px 20px rgba(244, 63, 94, 0.5); }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 5rem 5% 4rem;
+            background: linear-gradient(135deg, #e0f2fe 0%, #ffffff 100%);
+        }
+        .hero h1 { font-size: 3.5rem; margin-bottom: 1rem; color: var(--text-dark); }
+        .hero p { font-size: 1.25rem; color: var(--text-muted); max-width: 600px; margin-bottom: 2rem; }
+        .hero-media {
+            margin-top: 3rem;
+            width: 100%;
+            max-width: 800px;
+            height: 400px;
+            background: #e2e8f0;
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border: 4px solid var(--white);
+            /* TIP: Replace the background color above with a background-image URL to your TikTok GIF */
+        }
+
+        /* Features Section */
+        .features { padding: 5rem 5%; background: var(--white); text-align: center; }
+        .features h2 { font-size: 2.5rem; margin-bottom: 3rem; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; max-width: 1000px; margin: 0 auto; }
+        .card {
+            background: var(--bg-light);
+            padding: 2rem;
+            border-radius: 16px;
+            transition: transform 0.3s ease;
+        }
+        .card:hover { transform: translateY(-5px); }
+        .card-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+        .card h3 { margin-bottom: 0.5rem; }
+
+        /* Social Proof Banner */
+        .social-proof {
+            background: var(--text-dark);
+            color: var(--white);
+            padding: 3rem 5%;
+            text-align: center;
+        }
+        .social-proof h2 { font-size: 2rem; margin-bottom: 1rem; }
+        .social-proof p { color: #94a3b8; margin-bottom: 2rem; }
+
+        /* Footer */
+        footer { padding: 2rem 5%; text-align: center; color: var(--text-muted); font-size: 0.9rem; background: var(--white); }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero-media { height: 250px; }
+        }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <div class="logo">Vac<span>Pack</span></div>
+        <a href="#shop" class="btn">Get Yours</a>
+    </nav>
+
+    <section class="hero">
+        <span style="color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; font-size: 0.9rem;">🚀 Over 10,000+ Sold This Month</span>
+        <h1>Pack 3x More.<br>Zero Extra Bulk.</h1>
+        <p>The viral vacuum-compression backpack that shrinks your wardrobe to fit anywhere. Say goodbye to checked bag fees forever.</p>
+        <div>
+            <a href="#shop" class="btn btn-accent" style="margin-right: 1rem;">Shop Now - 50% Off</a>
+        </div>
+        
+        <div class="hero-media">
+            <h3>[ Insert Your Viral TikTok GIF / Video Here ]</h3>
+        </div>
+    </section>
+
+    <section class="features">
+        <h2>How It Works</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="card-icon">🎒</div>
+                <h3>1. Pack It Up</h3>
+                <p>Load up to 5 days of clothes into the airtight inner chamber.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🤐</div>
+                <h3>2. Seal the Zip</h3>
+                <p>Close the heavy-duty leak-proof zipper to secure your items.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">💨</div>
+                <h3>3. Compress</h3>
+                <p>Use the built-in valve (or our mini pump) to suck out the air and shrink the bag by 60%.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="social-proof">
+        <h2>"I didn't have to pay for a carry-on!"</h2>
+        <p>⭐⭐⭐⭐⭐ - Join thousands of travelers saving money and space.</p>
+        <a href="#shop" class="btn">Claim Your VacPack Today</a>
+    </section>
+
+    <footer>
+        <p>&copy; 2026 VacPack. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

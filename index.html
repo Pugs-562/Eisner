@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VacPack | Defy Baggage Fees</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-base: #030303;
+            --bg-panel: #0a0a0a;
+            --bg-card: #141414;
+            --border: #222222;
+            --text-main: #f0f0f0;
+            --text-muted: #888888;
+            --accent: #e60000;
+            --accent-hover: #ff1a1a;
+            --grid-color: rgba(255, 255, 255, 0.03);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            background-image: 
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        /* Canvas Overlay for the Premium Vortex Particle Physics */
+        #vortexCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 999998;
+            pointer-events: none;
+            display: none;
+        }
+
+        h1 { font-size: clamp(3rem, 6vw, 5rem); font-weight: 900; line-height: 1.05; letter-spacing: -0.04em; text-transform: uppercase; }
+        h2 { font-size: clamp(2rem, 4vw, 3.5rem); font-weight: 900; letter-spacing: -0.03em; text-transform: uppercase; }
+        h3 { font-size: 1.25rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+        p { font-size: 1.1rem; color: var(--text-muted); }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 5%;
+            background: rgba(3, 3, 3, 0.85);
+            backdrop-filter: blur(16px);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .logo { font-size: 1.5rem; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; }
+        .logo span { color: var(--accent); }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--accent);
+            color: #fff;
+            padding: 1rem 2.5rem;
+            text-decoration: none;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+            border: 1px solid var(--accent);
+            cursor: pointer;
+            font-size: 1rem;
+        }
+        .btn:hover {
+            background: var(--accent-hover);
+            border-color: var(--accent-hover);
+            box-shadow: 0 0 30px rgba(230, 0, 0, 0.2);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+        }
+        .btn-outline:hover { background: var(--text-main); color: var(--bg-base); }
+
+        section { padding: 8rem 5%; border-bottom: 1px solid var(--border); }
+        .container { max-width: 1200px; margin: 0 auto; }
+        
+        .hero { min-height: 100vh; display: flex; align-items: center; padding-top: 6rem; background: radial-gradient(circle at 50% 50%, rgba(230, 0, 0, 0.05) 0%, transparent 50%); }
+        .hero-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 4rem; align-items: center; width: 100%; max-width: 1400px; margin: 0 auto; }
+        .hero-content p { margin: 1.5rem 0 3rem; max-width: 500px; }
+        
+        .video-container { position: relative; width: 100%; padding-bottom: 150%; background: var(--bg-panel); border: 1px solid var(--border); }
+        .video-container iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+
+        .capacity-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+        .capacity-list { margin-top: 2rem; list-style: none; }
+        .capacity-list li {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            font-weight: 500;
+        }
+        .capacity-list li span { color: var(--text-muted); }
+
+        .showcase { background: #fff; color: #000; }
+        .showcase-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; max-width: 1200px; margin: 0 auto; }
+        .showcase img { width: 100%; height: auto; box-shadow: 0 30px 60px rgba(0,0,0,0.1); filter: grayscale(100%); transition: filter 0.5s; }
+        .showcase img:hover { filter: grayscale(0%); }
+        .showcase p { color: #333; margin: 1.5rem 0; }
+
+        .specs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 4rem; }
+        .spec-card { background: var(--bg-card); padding: 3rem 2rem; border: 1px solid var(--border); transition: transform 0.3s ease; }
+        .spec-card:hover { transform: translateY(-5px); border-color: var(--accent); }
+        .spec-card h3 { margin-bottom: 1rem; color: var(--text-main); display: flex; align-items: center; gap: 10px; }
+        .spec-card h3::before { content: ''; display: block; width: 12px; height: 12px; background: var(--accent); }
+
+        .faq-item { border-bottom: 1px solid var(--border); padding: 2rem 0; }
+        .faq-question { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; text-transform: uppercase; }
+
+        .checkout-section { text-align: center; padding: 10rem 5%; background: radial-gradient(circle at bottom, rgba(230,0,0,0.1) 0%, transparent 60%); }
+        .price { font-size: 4rem; font-weight: 900; margin: 1rem 0 2rem; }
+        .price s { color: var(--text-muted); font-size: 2rem; margin-right: 1rem; font-weight: 500; }
+        
+        footer { padding: 3rem 5%; text-align: center; color: var(--text-muted); }
+
+        .success-modal {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.95); backdrop-filter: blur(20px);
+            display: none; justify-content: center; align-items: center; flex-direction: column;
+            z-index: 999999; text-align: center; opacity: 0; transition: opacity 0.5s ease;
+        }
+        .success-modal.active { display: flex; opacity: 1; }
+        .success-content { background: var(--bg-card); padding: 4rem; border: 1px solid #fff; box-shadow: 0 0 60px rgba(255,255,255,0.1); transform: scale(0.9); transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .success-modal.active .success-content { transform: scale(1); }
+
+        .fade-in { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+        .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+        @media (max-width: 960px) {
+            .hero-grid, .capacity-grid, .showcase-grid { grid-template-columns: 1fr; gap: 3rem; text-align: center; }
+            .hero { padding-top: 8rem; }
+            .hero-content p { margin: 1.5rem auto 3rem; }
+            .video-container { max-width: 400px; margin: 0 auto; }
+            .spec-card h3 { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="vortexCanvas"></canvas>
+
+    <nav id="navbar">
+        <div class="logo">Vac<span>Pack</span></div>
+        <a href="#checkout" class="btn" style="padding: 0.6rem 1.5rem; font-size: 0.9rem;">Pre-order</a>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-grid">
+            <div class="hero-content fade-in">
+                <h1>Outsmart<br>the airlines.</h1>
+                <p>Airlines made billions last year on carry-on fees. We engineered a bag with a pneumatic vacuum seal that compresses a 30L load into an 18x14x8" personal item footprint. Fly under the radar.</p>
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <a href="#checkout" class="btn">Secure yours</a>
+                    <a href="#capacity" class="btn btn-outline">See capacity</a>
+                </div>
+            </div>
+            <div class="video-container fade-in">
+                <iframe src="https://www.youtube.com/embed/Z9aycjIkArw?autoplay=1&mute=1&loop=1&playlist=Z9aycjIkArw&controls=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+            </div>
+        </div>
+    </section>
+
+    <section id="capacity" class="container">
+        <div class="capacity-grid">
+            <div class="fade-in">
+                <h2>Defy physics.</h2>
+                <p>You no longer have to choose between traveling light and bringing what you need. The airtight core compresses fabrics by up to 60%, creating dense, flat layers.</p>
+            </div>
+            <div class="fade-in">
+                <h3>What fits inside one load:</h3>
+                <ul class="capacity-list">
+                    <li>Heavy Hoodies/Sweaters <span>x2</span></li>
+                    <li>T-Shirts <span>x5</span></li>
+                    <li>Trousers/Jeans <span>x3</span></li>
+                    <li>Socks & Underwear <span>x7 days</span></li>
+                    <li>15" MacBook Pro <span>x1 (Outer Sleeve)</span></li>
+                    <li>Washbag & Toiletries <span>x1</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="showcase">
+        <div class="showcase-grid">
+            <div class="fade-in">
+                <img src="https://www.simplifyliving.uk/cdn/shop/files/66-1.jpg?v=1743416913&width=1200" alt="VacPack internal system">
+            </div>
+            <div class="fade-in">
+                <h2 style="color: #000;">Industrial grade compression.</h2>
+                <p>Load the internal chamber, seal the waterproof zipper, and attach our USB mini-pump (or use the one-way manual press valve if you're off-grid). Watch a massive pile of fabric shrink to a solid block in 15 seconds.</p>
+                <p style="font-weight: 700; color: var(--accent);">+ USB Mini-Pump included with all orders this week.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="container">
+        <h2>Tech Specs</h2>
+        <div class="specs-grid">
+            <div class="spec-card fade-in">
+                <h3>Personal Item Size</h3>
+                <p>Engineered to exact 18" x 14" x 8" dimensions. Fits under the seat on Ryanair, Spirit, EasyJet, and Frontier.</p>
+            </div>
+            <div class="spec-card fade-in">
+                <h3>Airtight Core</h3>
+                <p>Medical-grade TPU lining combined with a patented one-way pneumatic valve guarantees zero air leakage during your flight.</p>
+            </div>
+            <div class="spec-card fade-in">
+                <h3>Ballistic Shell</h3>
+                <p>Wrapped in 1680D Ballistic Nylon. Water rolls off, and it survives the toughest transit conditions. Unbranded for a stealth look.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="container">
+        <h2>System FAQ</h2>
+        <div class="faq-item fade-in">
+            <div class="faq-question">Will this wrinkle my clothes?</div>
+            <p>Because the air is removed evenly, clothes are pressed flat, not crumpled. We recommend rolling garments before compressing for the best wrinkle-free results.</p>
+        </div>
+        <div class="faq-item fade-in">
+            <div class="faq-question">What if I don't have a pump when traveling back?</div>
+            <p>The VacPack features a dual-valve system. If you lose the included mini-pump, you can simply sit on the bag to force the air out of the one-way manual release valve.</p>
+        </div>
+        <div class="faq-item fade-in">
+            <div class="faq-question">Does it have space for my laptop?</div>
+            <p>Yes. The rear panel features an independent, padded sleeve designed for 16-inch laptops. This section is isolated from the vacuum chamber to protect your tech from compression.</p>
+        </div>
+    </section>
+
+    <section id="checkout" class="checkout-section">
+        <div class="fade-in">
+            <h2>Stop paying baggage fees.</h2>
+            <p>Join 15,000+ travelers who beat the system.</p>
+            <div class="price"><s>$149</s> $89</div>
+            <button id="buyButton" class="btn" style="font-size: 1.2rem; padding: 1.2rem 4rem; z-index: 10;">Purchase System</button>
+            <p style="margin-top: 1rem; font-size: 0.9rem; color: #555;">Includes Backpack + USB Air Pump. Free global shipping.</p>
+        </div>
+    </section>
+
+    <footer>
+        <p>VACPACK SYSTEM &copy; 2026. ALL RIGHTS RESERVED.</p>
+    </footer>
+
+    <div id="successModal" class="success-modal">
+        <div class="success-content">
+            <h2 style="color: #fff; margin-bottom: 1rem;">DONE.</h2>
+            <p style="font-size: 1.5rem; color: #fff;">Thank you for buying it.</p>
+            <p style="margin-top: 1rem; color: var(--text-muted);">Your order has been secured. Prepare for deployment.</p>
+            <button onclick="location.reload()" class="btn btn-outline" style="margin-top: 2rem;">Return Home</button>
+        </div>
+    </div>
+
+    <script>
+        // Intercept Intersection Fade-ins
+        const observer = new IntersectionObserver((entries, obs) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    obs.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15 });
+        document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+        // Advanced High-Performance Physics Engine & Vortex FX
+        const buyButton = document.getElementById('buyButton');
+        const canvas = document.getElementById('vortexCanvas');
+        const ctx = canvas.getContext('2d');
+        const modal = document.getElementById('successModal');
+
+        let particles = [];
+        let animationFrameId;
+        
+        // Vortex target point: Top Right Corner
+        let targetX, targetY;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            targetX = canvas.width - 40;
+            targetY = 40;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                // Randomized launch trajectories around the vortex mouth
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * 150 + 50;
+                this.x = targetX + Math.cos(angle) * distance;
+                this.y = targetY + Math.sin(angle) * distance;
+                
+                this.radius = Math.random() * 2 + 1;
+                this.speed = Math.random() * 0.04 + 0.02;
+                this.angle = angle;
+                this.distance = distance;
+                this.opacity = Math.random() * 0.5 + 0.5;
+            }
+            update() {
+                // Swirling physics inwards
+                this.angle += this.speed;
+                this.distance -= 2; 
+                this.x = targetX + Math.cos(this.angle) * this.distance;
+                this.y = targetY + Math.sin(this.angle) * this.distance;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.shadowColor = '#fff';
+                ctx.shadowBlur = 10;
+                ctx.fill();
+            }
+        }
+
+        buyButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Activate structural overlay canvas
+            canvas.style.display = 'block';
+            
+            const rect = buyButton.getBoundingClientRect();
+            
+            // Extract a realistic structural replica element of the button 
+            const clone = buyButton.cloneNode(true);
+            clone.style.position = 'fixed';
+            clone.style.top = rect.top + 'px';
+            clone.style.left = rect.left + 'px';
+            clone.style.width = rect.width + 'px';
+            clone.style.height = rect.height + 'px';
+            clone.style.margin = '0';
+            clone.style.zIndex = '999999';
+            clone.style.pointerEvents = 'none';
+            clone.style.transition = 'none'; // Overridden via physics ticker loop
+            document.body.appendChild(clone);
+            
+            buyButton.style.visibility = 'hidden';
+
+            // Internal physics state for the flying button object
+            let btnX = rect.left;
+            let btnY = rect.top;
+            let scale = 1;
+            let rotationX = 0;
+            let rotationY = 0;
+            let rotationZ = 0;
+            
+            // Random chaotic torque parameters
+            let rotSpeedX = (Math.random() - 0.5) * 25;
+            let rotSpeedY = (Math.random() - 0.5) * 25;
+            let rotSpeedZ = (Math.random() - 0.5) * 40;
+
+            let progress = 0;
+
+            // Generate initial core stream of the particle storm
+            for (let i = 0; i < 150; i++) {
+                particles.push(new Particle());
+            }
+
+            function animateLoop() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                
+                // Continuous injection of refreshing dynamic vacuum white storm metrics
+                if (progress < 0.9) {
+                    for(let k=0; k<5; k++) particles.push(new Particle());
+                }
+
+                // Render & execute orbital vortex vectors
+                particles.forEach((p, index) => {
+                    p.update();
+                    p.draw();
+                    if (p.distance <= 2) particles.splice(index, 1);
+                });
+
+                progress += 0.012; // Time increment variable
+
+                if (progress < 1) {
+                    // Stage 1: Random physics kick pathing simulation
+                    // Stage 2: Sudden vacuum event terminal acceleration snap to right corner
+                    const easeX = Math.pow(progress, 3);
+                    const easeY = Math.pow(progress, 2.5);
+                    
+                    // Introduce pseudo-random spatial turbulence noise wave modifiers
+                    let turbulenceX = Math.sin(progress * 15) * 60 * (1 - progress);
+                    let turbulenceY = Math.cos(progress * 12) * 60 * (1 - progress);
+
+                    let currentTargetX = targetX - rect.width/2;
+                    let currentTargetY = targetY - rect.height/2;
+
+                    let nextX = rect.left + (currentTargetX - rect.left) * easeX + turbulenceX;
+                    let nextY = rect.top + (currentTargetY - rect.top) * easeY + turbulenceY;
+
+                    // Apply continuous unconstrained physics rotational calculations
+                    rotationX += rotSpeedX;
+                    rotationY += rotSpeedY;
+                    rotationZ += rotSpeedZ;
+                    scale = 1 - Math.pow(progress, 2);
+
+                    clone.style.left = nextX + 'px';
+                    clone.style.top = nextY + 'px';
+                    clone.style.transform = `scale(${scale}) rotateX(${rotationX}deg) rotateY(${rotationY}deg) rotateZ(${rotationZ}deg)`;
+                    clone.style.opacity = 1 - (progress * 0.5);
+
+                    animationFrameId = requestAnimationFrame(animateLoop);
+                } else {
+                    // Cleanup phase & terminate loop
+                    cancelAnimationFrame(animationFrameId);
+                    clone.remove();
+                    canvas.style.display = 'none';
+                    particles = [];
+                    modal.classList.add('active');
+                }
+            }
+
+            animateLoop();
+        });
+    </script>
+</body>
+</html>
